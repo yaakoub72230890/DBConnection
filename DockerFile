@@ -1,0 +1,11 @@
+# 1. Use an image that has PHP and Apache (the web server) already installed
+FROM php:8.1-apache
+
+# 2. Run a command to install the MySQL extension so PHP can talk to your DB
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+
+# 3. Copy all your files (connection.php, get_questions.php) into the server
+COPY . /var/www/html/
+
+# 4. Tell the server to listen on Port 80
+EXPOSE 80
