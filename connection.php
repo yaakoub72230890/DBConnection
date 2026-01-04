@@ -3,15 +3,19 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
-$conn = new mysqli(
+$conn = mysqli_init();
+
+$success = $conn->real_connect(
     getenv('MYSQLHOST'), 
     getenv('MYSQLUSER'), 
     getenv('MYSQLPASSWORD'), 
     getenv('MYSQLDATABASE'), 
-    getenv('MYSQLPORT')
+    getenv('MYSQLPORT'),
+    NULL,
+    MYSQLI_CLIENT_SSL
 );
 
-if ($conn->connect_error) {
-  die(json_encode(["error" => "Database connection failed."]));
+if (!$success) {
+    die(json_encode(["error" => "Connection failed: " . mysqli_connect_error()]));
 }
 ?>
